@@ -8209,7 +8209,12 @@ CustomFilter.prototype.isHideValue = function (val, isLabelFilter) {
 		var isNumberFilter = this.Operator === c_oAscCustomAutoFilter.isGreaterThan || this.Operator === c_oAscCustomAutoFilter.isGreaterThanOrEqualTo || this.Operator === c_oAscCustomAutoFilter.isLessThan || this.Operator === c_oAscCustomAutoFilter.isLessThanOrEqualTo;
 
 		if (c_oAscCustomAutoFilter.equals === this.Operator || c_oAscCustomAutoFilter.doesNotEqual === this.Operator) {
-			filterVal = isNaN(this.Val) ? this.Val.toLowerCase() : this.Val;
+			var _digitFilrterVal = !isNaN(this.Val);
+			filterVal = !_digitFilrterVal ? this.Val.toLowerCase() : this.Val;
+			if (isLabelFilter && !_digitFilrterVal) {
+				val = val + "";
+				isDigitValue = false;
+			}
 		} else if (isNumberFilter) {
 			filterVal = this.Val;
 			if (isLabelFilter) {
