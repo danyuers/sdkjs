@@ -765,6 +765,11 @@ Slide.prototype =
         item.setParent2(this);
     },
 
+    shapeRemove: function (pos, count) {
+        History.Add(new AscDFH.CChangesDrawingsContent(this, AscDFH.historyitem_SlideRemoveFromSpTree, pos, this.cSld.spTree.slice(pos, pos + count), true));
+        this.cSld.spTree.splice(pos, count);
+    },
+
     isVisible: function(){
         return this.show !== false;
     },

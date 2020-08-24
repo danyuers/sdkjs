@@ -3917,6 +3917,11 @@ CPresentation.prototype.addSlideMaster = function (pos, master) {
     this.slideMasters.splice(pos, 0, master);
 };
 
+CPresentation.prototype.removeSlideMaster = function (pos, count) {
+    History.Add(new AscDFH.CChangesDrawingsContent(this, AscDFH.historyitem_Presentation_RemoveSlideMaster, pos, this.slideMasters.slice(pos, pos + count), true));
+    this.slideMasters.splice(pos, count);
+};
+
 CPresentation.prototype.Get_Id = function () {
     return this.Id;
 };

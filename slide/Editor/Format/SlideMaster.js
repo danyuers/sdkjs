@@ -456,6 +456,11 @@ MasterSlide.prototype =
             item.setParent2(this);
         },
 
+        shapeRemove: function (pos, count) {
+            History.Add(new AscDFH.CChangesDrawingsContent(this, AscDFH.historyitem_SlideMasterRemoveFromSpTree, pos, this.cSld.spTree.slice(pos, pos + count), true));
+            this.cSld.spTree.splice(pos, count);
+        },
+
         changeBackground: function (bg) {
             History.Add(new AscDFH.CChangesDrawingsObjectNoId(this, AscDFH.historyitem_SlideMasterSetBg, this.cSld.Bg, bg));
             this.cSld.Bg = bg;
@@ -484,6 +489,27 @@ MasterSlide.prototype =
             History.Add(new AscDFH.CChangesDrawingsContent(this, AscDFH.historyitem_SlideMasterAddLayout, pos, [obj], true));
             this.sldLayoutLst.splice(pos, 0, obj);
             obj.setMaster(this);
+        },
+
+        removeFromSldLayoutLstByPos : function (pos, count) {
+            History.Add(new AscDFH.CChangesDrawingsContent(this, AscDFH.historyitem_SlideMasterRemoveLayout, pos, this.sldLayoutLst.slice(pos, pos + count), true));
+            this.sldLayoutLst.splice(pos, count);
+        }, 
+
+        moveLayouts : function (layoutsIndexes, pos) {
+            var insert_pos = pos;
+            var removed_layouts = [];
+            for (var i = layoutsIndexes.length - 1; i > -1; --i) {
+                removed_layouts.push(this.removeSlide(layoutsIndexes[i]));
+                if (layoutsIndexes[i] < pos) {
+                    --insert_pos;
+                }
+            }
+            removed_layouts.reverse();
+            for (i = 0; i < removed_layouts.length; ++i) {
+                this.addToSldLayoutLstToPos(insert_pos + i, removed_layouts[i]);
+            }
+            this.Recalculate();
         },
 
         getAllImages: function (images) {

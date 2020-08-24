@@ -253,6 +253,10 @@ SlideLayout.prototype =
         item.setParent2(this);
     },
 
+    shapeRemove: function (pos, count) {
+        History.Add(new AscDFH.CChangesDrawingsContent(this, AscDFH.historyitem_SlideLayoutRemoveFromSpTree, pos, this.cSld.spTree.slice(pos, pos + count), true));
+        this.cSld.spTree.splice(pos, count);
+    },
 
     setSlideSize: function(w, h)
     {
