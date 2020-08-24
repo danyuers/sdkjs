@@ -1464,13 +1464,14 @@
 	});
 
 	/**
-	 * Set cell value
+	 * Gets the value of the first cell in range.
 	 * @memberof ApiRange
 	 * @returns {string}
 	 */
 	ApiRange.prototype.GetValue = function () {
 		return this.range.getValue();
 	};
+
 	/**
 	 * Set the value for the current cell or a cell range.
 	 * @typeofeditors ["CSE"]
@@ -1492,9 +1493,70 @@
 
 		return true;
 	};
+
 	Object.defineProperty(ApiRange.prototype, "Value", {
 		get: function () {
 			return this.GetValue();
+		},
+		set: function (value) {
+			this.SetValue(value);
+		}
+	});
+
+	/**
+	 * Gets the formula of the first cell in range.
+	 * @typeofeditors ["CSE"]
+	 * @memberof ApiRange
+	 * @return {string} - return Value2 property if formula doesn't exist.  
+	 */
+	ApiRange.prototype.GetFormula = function () {
+		if (this.range.isFormula())
+			return "= " + this.range.getFormula();
+		else 
+			return this.GetValue2();
+	};
+
+	Object.defineProperty(ApiRange.prototype, "Formula", {
+		get: function () {
+			return this.GetFormula();
+		},
+		set: function (value) {
+			this.SetValue(value);
+		}
+	});
+
+	/**
+	 * Gets the value2 of the first cell in range.
+	 * @typeofeditors ["CSE"]
+	 * @memberof ApiRange
+	 * @return {string} 
+	 */
+	ApiRange.prototype.GetValue2 = function () {
+		return this.range.getValueWithoutFormat();
+	};
+
+	Object.defineProperty(ApiRange.prototype, "Value2", {
+		get: function () {
+			return this.GetValue2();
+		},
+		set: function (value) {
+			this.SetValue(value);
+		}
+	});
+
+	/**
+	 * Gets the text of the first cell in range.
+	 * @typeofeditors ["CSE"]
+	 * @memberof ApiRange
+	 * @return {string} 
+	 */
+	ApiRange.prototype.GetText = function () {
+		return this.range.getValueWithFormat();
+	};
+
+	Object.defineProperty(ApiRange.prototype, "Text", {
+		get: function () {
+			return this.range.getValueWithFormat();
 		},
 		set: function (value) {
 			this.SetValue(value);
